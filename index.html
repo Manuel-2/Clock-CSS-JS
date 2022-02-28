@@ -1,100 +1,186 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CSS & JS Clock</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3&display=swap" rel="stylesheet">
     <style>
-        *{
+        * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
         }
 
-        html{
+        html {
             font-size: 62.5%;
+            font-family: 'Source Sans 3', sans-serif;
         }
 
-        :root{
+        :root {
             /* colors */
-            --Clock-hands-color: #1f1f1f;
+            --light: #FFFCF2;
+            --gray: #CCC5B9;
+            --dark1: #403D39;
+            --dark2: #252422;
+            --orange: #EB5E28;
 
             /* extras */
             --footer-height: 60px;
             --clock-size: 360px;
         }
 
-        body{
+        body {
             width: 100vw;
             height: 100vh;
+            background-image: linear-gradient(180deg, #fdfcfb 0%, #e2d1c3 100%);
         }
 
-        main{
+        main {
             width: 100%;
             min-height: calc(100% - var(--footer-height));
-            /*
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            */
         }
 
-        footer{
+        footer {
             width: 100%;
             height: var(--footer-height);
-            background-color: slategrey;
-
+            background-color: var(--dark2);
+            color: var(--light);
             display: flex;
             justify-content: center;
             align-items: center;
             font-size: 2rem;
-            
+
         }
 
-        footer a{
-            
+        footer a {
+            color: var(--orange);
         }
 
-        .clock{
+        .clock {
+            box-sizing: initial;
             width: var(--clock-size);
             height: var(--clock-size);
             border-radius: 50%;
-            background-color: slategrey;
+            border: solid 1px var(--dark2);
             display: flex;
             justify-content: center;
-            align-items: flex-start;
+            align-items: center;
             position: absolute;
-            left:calc(100vw/2 - var(--clock-size)/2);
+            left: calc(100vw/2 - var(--clock-size)/2);
             top: calc(100vh/2 - var(--clock-size)/2 - var(--footer-height));
         }
 
-        .hand{
-            width: 5px;
-            height: calc((var(--clock-size) / 2) - 5px);
-            background-color: rgb(116, 43, 43);
-            border-radius: 5px;
-
-            transform-origin: bottom center;
-            position: absolute;
-            top: 5px;
+        .center {
+            width: 15px;
+            height: 15px;
+            background-color: var(--orange);
+            border-radius: 50%;
+            z-index: 1;
         }
 
+        .hand {
+            border-radius: 5px;
+            transform-origin: bottom center;
+            position: absolute;
+            transition: transform 0.1s;
+            transition-timing-function: cubic-bezier(0, 1.4, 1, 1.29);
+        }
+
+        .seconds-hand {
+            width: 3px;
+            height: calc((var(--clock-size) / 2) - 15px);
+            top: 15px;
+            background-color: var(--light);
+        }
+
+        .minutes-hand {
+            width: 5px;
+            height: calc((var(--clock-size) / 2) - 35px);
+            top: 35px;
+            background-color: var(--gray);
+        }
+
+        .hours-hand {
+            width: 7px;
+            height: calc((var(--clock-size) / 2) - 65px);
+            top: 65px;
+            background-color: var(--dark1);
+        }
+
+        .time {
+            position: absolute;
+            font-size: 6.2rem;
+            top: 400px;
+            color: var(--orange);
+        }
+
+        @media only screen and (max-width: 425px) {
+            
+        }
     </style>
 </head>
+
 <body>
     <main>
         <div class="clock">
+            <div class="center"></div>
             <div class="hand seconds-hand"></div>
             <div class="hand minutes-hand"></div>
             <div class="hand hours-hand"></div>
+            <p class="time"></p>
         </div>
     </main>
     <footer>
         <p>By <a href="#" target="_blank">Manuel Peñaloza</a></p>
     </footer>
     <script>
+        const hands = document.querySelectorAll(".hand");
+        const timeDisplay = document.querySelector(".time");
 
+        function UpdateClock() {
+            const date = new Date();
+            const degrees = {
+                second: date.getSeconds() / 60 * 360,
+                minute: date.getMinutes() / 60 * 360,
+                hour: date.getHours() / 12 * 360
+            };
+
+            hands[0].style.transform = `rotate(${degrees.second}deg)`;
+            hands[1].style.transform = `rotate(${degrees.minute}deg)`;
+            hands[2].style.transform = `rotate(${degrees.hour}deg)`;
+            updateTimer(date);
+        }
+
+        function updateTimer(date) {
+            let timeHours;
+            let timeMinutes = date.getMinutes();
+            let timeSeconds = date.getSeconds();
+            let time = "a.m."
+
+            if (timeSeconds < 10) {
+                timeSeconds = '0' + timeSeconds;
+            }
+            if (timeMinutes < 10) {
+                timeMinutes = '0' + timeMinutes;
+            }
+            if (date.getHours() > 12) {
+                timeHours = date.getHours() - 12;
+                time = "p.m."
+            }
+            if (timeHours < 10) {
+                timeHours = '0' + timeHours;
+            }
+
+            timeDisplay.innerText = `${timeHours}:${timeMinutes}:${timeSeconds}  ${time}`;
+        }
+
+        setInterval(UpdateClock, 1000);
     </script>
 </body>
+
 </html>
