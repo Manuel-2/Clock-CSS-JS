@@ -120,7 +120,7 @@
         }
 
         @media only screen and (max-width: 485px) {
-            .clock{
+            .clock {
                 transform: scale(0.7);
             }
         }
@@ -172,6 +172,8 @@
             }
             if (date.getHours() > 12) {
                 timeHours = date.getHours() - 12;
+            }
+            if (date.getHours() > 11) {
                 time = "p.m."
             }
             if (timeHours < 10) {
