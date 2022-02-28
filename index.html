@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSS & JS Clock</title>
+    <style>
+        *{
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html{
+            font-size: 62.5%;
+        }
+
+        :root{
+            /* colors */
+            --Clock-hands-color: #1f1f1f;
+
+            /* extras */
+            --footer-height: 60px;
+            --clock-size: 360px;
+        }
+
+        body{
+            width: 100vw;
+            height: 100vh;
+        }
+
+        main{
+            width: 100%;
+            min-height: calc(100% - var(--footer-height));
+            /*
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            */
+        }
+
+        footer{
+            width: 100%;
+            height: var(--footer-height);
+            background-color: slategrey;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 2rem;
+            
+        }
+
+        footer a{
+            
+        }
+
+        .clock{
+            width: var(--clock-size);
+            height: var(--clock-size);
+            border-radius: 50%;
+            background-color: slategrey;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            position: absolute;
+            left:calc(100vw/2 - var(--clock-size)/2);
+            top: calc(100vh/2 - var(--clock-size)/2 - var(--footer-height));
+        }
+
+        .hand{
+            width: 5px;
+            height: calc((var(--clock-size) / 2) - 5px);
+            background-color: rgb(116, 43, 43);
+            border-radius: 5px;
+
+            transform-origin: bottom center;
+            position: absolute;
+            top: 5px;
+        }
+
+    </style>
+</head>
+<body>
+    <main>
+        <div class="clock">
+            <div class="hand seconds-hand"></div>
+            <div class="hand minutes-hand"></div>
+            <div class="hand hours-hand"></div>
+        </div>
+    </main>
+    <footer>
+        <p>By <a href="#" target="_blank">Manuel Peñaloza</a></p>
+    </footer>
+    <script>
+
+    </script>
+</body>
+</html>
